@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar</title>
+</head>
+<body>
+<h1>Agregar Usuario</h1>
+<form action="{{ url_for('add_user') }}" method="post">
+  <label for="name">Nombre:</label>
+  <input type="text" id="name" name="name" required>
+    <br><br>
+    <label for="email">Email:</label>
+  <input type="text" id="email" name="email" required>
+    <br><br>
+    <button type="submit">Añadir</button>
+</form>
+<form action="{{ url_for('get_users') }}" method="get">
+    <button type="submit">Volver atrás</button>
+</form>
+</body>
+</html>
