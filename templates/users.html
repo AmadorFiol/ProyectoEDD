@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Usuarios</title>
+    <title>Lista de Estudiantes</title>
 </head>
 <body>
-    <h1>Lista de Usuarios</h1>
-    <a href="{{ url_for('add_user')}}">Añadir</a>
+    <h1>Lista de Estudiantes</h1>
+    <a href="{{ url_for('add_estudiante')}}">Añadir</a>
     <ul>
-        {% for user in users %}
-        <li>ID: {{user.id}}, Nombre: {{user.name}} --------- Email: {{user.email}}
+        {% for estudiante in estudiantes %}
+        <li>ID: {{estudiante.id}}, Nombre: {{estudiante.nombre}} --------- Materia: {{estudiante.materia}} --------- Nota: {{estudiante.nota}} --------- Fecha de Registro: {{estudiante.fecha_registro}}
 
-            <a href="{{ url_for('edit_user', user_id = user.id) }}">Editar</a>
-            <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post">
+            <a href="{{ url_for('edit_estudiante', estudiante_id = estudiante.id) }}">Editar</a>
+            <form action="{{ url_for('delete_estudiante', estudiante_id=estudiante.id) }}" method="post">
                 <button type="submit">Eliminar</button>
             </form>
 
