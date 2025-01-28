@@ -7,8 +7,8 @@
 <body>
 <h1>Editar Estudiante</h1>
 <form action="{{ url_for('edit_estudiante', estudiante_id=estudiante.id) }}" method="post">
-  <label for="nombre">Nombre:</label>
-  <input type="text" id="nombre" name="nombre" value="{{estudiante.nombre}}" required>
+  <label for="nombre_estudiante">Nombre:</label>
+  <input type="text" id="nombre_estudiante" name="nombre_estudiante" value="{{estudiante.nombre_estudiante}}" required>
     <br><br>
     <label for="materia">Materia:</label>
   <input type="text" id="materia" name="materia" value="{{estudiante.materia}}" required>
