@@ -12,64 +12,67 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-class User(db.Model):
+class Estudiante(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
+    nombre_estudiante = db.Column(db.String(100), nullable=False)
+    materia=db.column(db.String(100),nullable=False)
+    nota=db.column(db.Integer, nullable=False)
+    fecha_registro=db.column(db.String(100),nullable=False)
 
     def __repr__(self):
-        return f'User {self.name}'
+        return f'estudiante {self.nombre_estudiante}'
 
-@app.route('/users')
-def get_users():
-    users = User.query.all()
-    #return jsonify([{"id" : user.id, "name": user.name, "email": user.email} for user in users])
-    return render_template("users.html", users=users)
+@app.route('/estudiantes')
+def get_estudiantes():
+    estudiantes = Estudiante.query.all()
+    return render_template("estudiantes.html", estudiantes=estudiantes)
 
 
-@app.route('/add_user', methods=['POST','GET'])
-def add_user():
+@app.route('/add_estudiante', methods=['POST','GET'])
+def add_estudiante():
     if request.method =='POST':
-        nombre = request.form.get("name")
-        email = request.form.get("email")
-        usuario_nuevo = User(name= nombre, email= email)
+        nombre = request.form.get("nombre_estudiante")
+        materia = request.form.get("materia")
+        nota=request.form.get("nota")
+        fecha_registro=request.form.get("fecha_registro")
+        usuario_nuevo = Estudiante(nombre_estudiante= nombre, materia= materia,nota= nota,fecha_registro= fecha_registro)
         db.session.add(usuario_nuevo)
         db.session.commit()
-        return redirect(url_for('get_users'))
+        return redirect(url_for('get_estudiantes'))
     else:
         return render_template('agregar.html')
 
-@app.route('/users/<int:user_id>')
-def get_user_by_id(user_id):
-    user = User.query.get(user_id)
-    if user:
-        return jsonify({"id": user.id, "name": user.name, "email": user.email})
+@app.route('/estudiantes/<int:estudiante_id>')
+def get_estudiante_by_id(estudiante_id):
+    estudiante = Estudiante.query.get(estudiante_id)
+    if estudiante:
+        return jsonify({"id": estudiante.id, "nombre_estudiante": estudiante.nombre_estudiante, "materia": estudiante.materia, "nota":estudiante.nota,"fecha_registro":estudiante.fecha_registro})
     else:
         return jsonify({"error": "Usuario no encontrado"}), 404
 
-@app.route('/user/delete/<int:user_id>', methods=['POST'])
-def delete_user(user_id):
-    user= User.query.get(user_id)
-    if user:
-        db.session.delete(user)
+@app.route('/estudiante/delete/<int:estudiante_id>', methods=['POST'])
+def delete_estudiante(estudiante_id):
+    estudiante= Estudiante.query.get(estudiante_id)
+    if estudiante:
+        db.session.delete(estudiante)
         db.session.commit()
-        return redirect(url_for('get_users'))
+        return redirect(url_for('get_estudiantes'))
 
     else:
         return jsonify({"error": "Usuario no encontrado"}), 404
 
-@app.route('/user/edit_user/<int:user_id>', methods=['GET', 'POST'])
-def edit_user(user_id):
-    user = User.query.get(user_id)
-    if not user:
-        return "Usuario no encontrado", 404
+@app.route('/estudiante/edit_estudiante/<int:estudiante_id>', methods=['GET', 'POST'])
+def edit_estudiante(estudiante_id):
+    estudiante = Estudiante.query.get(estudiante_id)
+    if not estudiante:
+        return "Estudiante no encontrado", 404
     if request.method == 'POST':
-        user.name = request.form.get('name')
-        user.email = request.form.get('email')
+        estudiante.nombre_estudiante = request.form.get('nombre_estudiante')
+        estudiante.materia = request.form.get('materia')
         db.session.commit()
-        return redirect(url_for('get_users'))
+        return redirect(url_for('get_estudiantes'))
 
-    return render_template('edit_user.html', user=user)
+    return render_template('edit_estudiante.html', estudiante=estudiante)
 
 
 if __name__ == "__main__":
